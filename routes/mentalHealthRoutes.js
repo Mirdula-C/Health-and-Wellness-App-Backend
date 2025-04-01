@@ -9,6 +9,12 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
+
+router.get("/", (_req, res) => {
+  res.json({ message: "Mental Health API is working!" });
+});
+
+
 // ✅ Mental Health Routes
 router.post("/", auth, logMentalHealth);                  // Log mental health entry
 router.get("/", auth, getMentalHealthEntries);            // Get mental health entries

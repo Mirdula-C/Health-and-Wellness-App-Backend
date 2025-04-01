@@ -9,6 +9,12 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
+
+router.get("/", (_req, res) => {
+  res.json({ message: "Nutrition API is working!" });
+});
+
+
 // ✅ Nutrition Routes
 router.post("/log-meal", auth, logMeal);              // Log a meal
 router.get("/view-nutrition", auth, viewMeals);       // View meals

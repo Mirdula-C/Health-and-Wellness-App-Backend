@@ -10,8 +10,7 @@ const auth = require("../middleware/auth");
 const router = express.Router();
 
 
-// ✅ Add a root route to check if `/api/fitness` is accessible
-router.get("/", (req, res) => {
+router.get("/", (_req, res) => {
   res.json({ message: "Fitness API is working!" });
 });
 

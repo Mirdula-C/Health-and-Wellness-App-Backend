@@ -6,6 +6,12 @@ const User = require("../models/User");
 const { sendResetEmail } = require("../utils/emailService");
 const router = express.Router();
 
+
+// ✅ Default Route for Testing
+router.get("/", (_req, res) => {
+  res.json({ message: "Auth API is working!" });
+});
+
 // ✅ 📌 REGISTER USER
 router.post("/register", async (req, res) => {
   try {
