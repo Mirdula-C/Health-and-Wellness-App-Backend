@@ -11,12 +11,12 @@ const profileRoutes = require("./profileRoutes");
 const dashboardRoutes = require("./dashboardRoutes");
 
 // ✅ Use individual routes with specific prefixes
-router.use("/auth", authRoutes);
-router.use("/fitness", fitnessRoutes);
-router.use("/nutrition", nutritionRoutes);
-router.use("/mentalhealth", mentalHealthRoutes);
-router.use("/goal-tracking", goalRoutes);
-router.use("/profile", profileRoutes);
-router.use("/dashboard", dashboardRoutes);
+router.use("/auth", authRoutes); // /api/auth
+router.use("/fitness", fitnessRoutes); // /api/fitness
+router.use("/nutrition", nutritionRoutes); // /api/nutrition
+router.use("/mentalhealth", mentalHealthRoutes); // /api/mentalhealth
+router.use("/goal-tracking", goalRoutes); // /api/goal-tracking
+router.use("/profile", profileRoutes); // /api/profile
+router.use("/dashboard", dashboardRoutes); // /api/dashboard
 
 module.exports = router;

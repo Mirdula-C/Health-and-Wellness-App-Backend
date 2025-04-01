@@ -5,21 +5,21 @@ const cors = require("cors");
 const morgan = require("morgan");
 
 // Import routes
-const rootRouter = require("./routes");  
+const rootRouter = require("./routes");
 
 dotenv.config();
 const app = express();
 
 // ✅ Middleware
-app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-app.use(morgan("dev"));
+app.use(express.json()); // Parse JSON requests
+app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Allow frontend app
+app.use(morgan("dev")); // Log requests for easier debugging
 
 // ✅ Use Root Router
-app.use("/api", rootRouter);  
+app.use("/api", rootRouter);  // All routes are prefixed with /api
 
 // ✅ Handle undefined routes (404)
-app.use((req, res) => {
+app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });
 });
 
