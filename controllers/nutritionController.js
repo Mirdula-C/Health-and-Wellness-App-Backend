@@ -3,7 +3,7 @@ const Nutrition = require("../models/Nutrition");
 // ✅ Log a new meal
 exports.logMeal = async (req, res) => {
   const { foodItem, calories, protein, carbs, fats, date } = req.body;
-  const userId = req.user?.id;  // Get user ID from token
+  const userId = req.user?.id;  
 
   if (!userId) {
     return res.status(401).json({ message: "Unauthorized. User ID is missing." });
@@ -104,7 +104,7 @@ exports.getNutritionProgress = async (req, res) => {
     if (!meals || meals.length === 0) {
       return res.status(200).json({
         labels: ["Carbs", "Proteins", "Fats"],
-        data: [0, 0, 0],  // Return empty chart if no data
+        data: [0, 0, 0],  
         message: "No nutrition data found for this week."
       });
     }

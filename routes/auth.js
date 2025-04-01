@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
     // ✅ Generate JWT token with expiration
     const token = jwt.sign(
       { id: user._id }, 
-      process.env.JWT_SECRET,  // Use .env secret
+      process.env.JWT_SECRET,  
       { expiresIn: "1h" }      // Token valid for 1 hour
     );
 
@@ -88,7 +88,7 @@ router.post("/forgot-password", async (req, res) => {
 
     // Store hashed token and expiry in DB
     user.resetPasswordToken = hashedToken;
-    user.resetPasswordExpires = Date.now() + 3600000;  // Token valid for 1 hour
+    user.resetPasswordExpires = Date.now() + 3600000;  
     await user.save();
 
     // Send Reset Email

@@ -8,9 +8,9 @@ module.exports = (req, res, next) => {
   const tokenHeader = req.header("x-auth-token");
 
   if (authHeader && authHeader.startsWith("Bearer ")) {
-    token = authHeader.split(" ")[1];  // Extract token from Bearer format
+    token = authHeader.split(" ")[1];  
   } else if (tokenHeader) {
-    token = tokenHeader;  // Use x-auth-token if available
+    token = tokenHeader;  
   }
 
   console.log("🛡️ Received Token:", token || "No token provided");

@@ -17,17 +17,21 @@ const app = express();
 
 // ✅ Middleware
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));  // CORS configured
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));  
 app.use(morgan("dev"));
 
-// ✅ Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/fitness", fitnessRoutes);
-app.use("/api/nutrition", nutritionRoutes);
-app.use("/api/mentalhealth", mentalHealthRoutes);
-app.use("/api/goal-tracking", goalRoutes);
-app.use("/api/profile", profileRoutes);
-app.use("/api/dashboard", dashboardRoutes);
+// ✅ Root Router
+const rootRouter = express.Router();
+
+rootRouter.use("/auth", authRoutes);
+rootRouter.use("/fitness", fitnessRoutes);
+rootRouter.use("/nutrition", nutritionRoutes);
+rootRouter.use("/mentalhealth", mentalHealthRoutes);
+rootRouter.use("/goal-tracking", goalRoutes);
+rootRouter.use("/profile", profileRoutes);
+rootRouter.use("/dashboard", dashboardRoutes);
+
+app.use("/api", rootRouter);  
 
 // ✅ Handle undefined routes (404)
 app.use((req, res) => {
@@ -45,7 +49,7 @@ const PORT = process.env.PORT || 5000;
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
-    console.log(`✅ Connected to MongoDB`);
+    console.log("✅ Connected to MongoDB");
     app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
   })
   .catch((error) => {

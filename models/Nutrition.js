@@ -11,7 +11,7 @@ const nutritionSchema = new mongoose.Schema({
   protein: { type: Number, default: 0 },
   carbs: { type: Number, default: 0 },
   fats: { type: Number, default: 0 },
-  date: { type: Date, required: true },  // ✅ Ensure consistent date format
+  date: { type: Date, required: true },  
 }, { timestamps: true });
 
 module.exports = mongoose.model("Nutrition", nutritionSchema);

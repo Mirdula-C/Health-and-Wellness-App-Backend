@@ -19,27 +19,27 @@ router.get("/week", auth, async (req, res) => {
 
     // ✅ Fetch fitness data
     const fitnessLogs = await Exercise.find({
-      userId: userId,  // ← Use `userId` instead of `user`
-      date: { $gte: startOfWeek, $lte: endOfWeek }  // ← Use `date` field
+      userId: userId,  
+      date: { $gte: startOfWeek, $lte: endOfWeek }  
     });
 
     const totalDuration = fitnessLogs.reduce((acc, log) => acc + (log.duration || 0), 0);
 
     // ✅ Fetch nutrition data
     const nutritionLogs = await Nutrition.find({
-      userId: userId,  // ← Use `userId`
-      date: { $gte: startOfWeek, $lte: endOfWeek }  // ← Use `date`
+      userId: userId,  
+      date: { $gte: startOfWeek, $lte: endOfWeek }  
     });
 
     const totalCalories = nutritionLogs.reduce((acc, log) => acc + (log.calories || 0), 0);
     const totalProtein = nutritionLogs.reduce((acc, log) => acc + (log.protein || 0), 0);
     const totalCarbs = nutritionLogs.reduce((acc, log) => acc + (log.carbs || 0), 0);
-    const totalFats = nutritionLogs.reduce((acc, log) => acc + (log.fats || 0), 0);  // ← Use `fats`
+    const totalFats = nutritionLogs.reduce((acc, log) => acc + (log.fats || 0), 0);  
 
     // ✅ Fetch mental health data
     const mentalLogs = await MentalHealth.find({
-      userId: userId,  // ← Use `userId`
-      date: { $gte: new Date(startOfWeek), $lte: new Date(endOfWeek) }  // ← Use ISO date field
+      userId: userId,  
+      date: { $gte: new Date(startOfWeek), $lte: new Date(endOfWeek) }  
     });
 
     const averageMood = (
@@ -52,7 +52,7 @@ router.get("/week", auth, async (req, res) => {
         calories: totalCalories, 
         protein: totalProtein, 
         carbs: totalCarbs, 
-        fats: totalFats  // ← Fixed field name
+        fats: totalFats  
       },
       mentalHealth: { averageMood }
     });

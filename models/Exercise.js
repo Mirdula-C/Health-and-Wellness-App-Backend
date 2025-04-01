@@ -9,7 +9,7 @@ const exerciseSchema = new mongoose.Schema({
   exercise: { type: String, required: true },
   duration: { type: Number, required: true },
   distance: { type: Number, default: 0 },
-  date: { type: Date, required: true }   // ✅ Ensure consistent date format
+  date: { type: Date, required: true }   
 }, { timestamps: true });
 
 module.exports = mongoose.model("Exercise", exerciseSchema);

@@ -2,7 +2,7 @@ const MentalHealth = require("../models/MentalHealth");
 
 // ✅ Log a mental health entry
 exports.logMentalHealth = async (req, res) => {
-  const { mood, date, journalEntry } = req.body;  // ✅ Include journalEntry
+  const { mood, date, journalEntry } = req.body;  
   const userId = req.user?.id;
 
   if (!userId) {
@@ -13,7 +13,7 @@ exports.logMentalHealth = async (req, res) => {
     const entry = new MentalHealth({
       userId,
       mood,
-      journalEntry,               // ✅ Save journal entry properly
+      journalEntry,               
       date: date ? new Date(date) : new Date(),
     });
 
@@ -78,14 +78,13 @@ exports.getMentalHealthProgress = async (req, res) => {
 
   try {
     const today = new Date();
-    const dayOfWeek = today.getDay();  // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-
+    const dayOfWeek = today.getDay();  
     const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));  // Move to Monday
+    startOfWeek.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));  
     startOfWeek.setHours(0, 0, 0, 0);
 
     const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);  // Move to Sunday
+    endOfWeek.setDate(startOfWeek.getDate() + 6);  
     endOfWeek.setHours(23, 59, 59, 999);
 
     const entries = await MentalHealth.find({
@@ -100,7 +99,7 @@ exports.getMentalHealthProgress = async (req, res) => {
 
     entries.forEach((entry) => {
       const dayIndex = new Date(entry.date).getDay();
-      chartData.data[dayIndex === 0 ? 6 : dayIndex - 1] = entry.mood;  // Sunday to last index
+      chartData.data[dayIndex === 0 ? 6 : dayIndex - 1] = entry.mood;  
     });
 
     res.status(200).json(chartData);

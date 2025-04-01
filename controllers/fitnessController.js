@@ -3,7 +3,7 @@ const Exercise = require("../models/Exercise");
 // ✅ Log a new exercise
 const logExercise = async (req, res) => {
   const { exercise, duration, distance, date } = req.body;
-  const userId = req.user?.id;  // Get user ID from token
+  const userId = req.user?.id;  
 
   if (!userId) {
     return res.status(401).json({ message: "Unauthorized. User ID is missing." });
@@ -19,7 +19,7 @@ const logExercise = async (req, res) => {
       exercise,
       duration,
       distance,
-      date: date ? new Date(date) : new Date(),  // Ensure date consistency
+      date: date ? new Date(date) : new Date(),  
     });
 
     await newExercise.save();
@@ -112,13 +112,13 @@ const getFitnessProgress = async (req, res) => {
     // ✅ Prepare chart data
     const chartData = {
       labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      data: Array(7).fill(0), // Initialize with 0 for each day
+      data: Array(7).fill(0), 
     };
 
     // ✅ Populate chart data
     exercises.forEach((exercise) => {
       const dayIndex = new Date(exercise.date).getDay();
-      chartData.data[dayIndex === 0 ? 6 : dayIndex - 1] += 1;  // Map Sunday (0) to last index
+      chartData.data[dayIndex === 0 ? 6 : dayIndex - 1] += 1;  
     });
 
     res.status(200).json(chartData);
@@ -133,5 +133,5 @@ module.exports = {
   logExercise,
   getExercises,
   deleteExercise,
-  getFitnessProgress,   // ✅ Added progress function
+  getFitnessProgress,   
 };
