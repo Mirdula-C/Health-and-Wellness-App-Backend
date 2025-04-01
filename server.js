@@ -15,6 +15,11 @@ app.use(express.json()); // Parse JSON requests
 app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Allow frontend app
 app.use(morgan("dev")); // Log requests for easier debugging
 
+// ✅ Default Route (Root API Endpoint)
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Welcome to the Health and Wellness API!" });
+});
+
 // ✅ Use Root Router
 app.use("/api", rootRouter);  // All routes are prefixed with /api
 
