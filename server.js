@@ -4,33 +4,18 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const morgan = require("morgan");
 
-const authRoutes = require("./routes/auth");
-const fitnessRoutes = require("./routes/fitnessRoutes");
-const nutritionRoutes = require("./routes/nutritionRoutes");
-const mentalHealthRoutes = require("./routes/mentalHealthRoutes");
-const goalRoutes = require("./routes/goalRoutes");
-const profileRoutes = require("./routes/profileRoutes");
-const dashboardRoutes = require("./routes/dashboardRoutes");
+// Import routes
+const rootRouter = require("./routes");  
 
 dotenv.config();
 const app = express();
 
 // ✅ Middleware
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));  
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(morgan("dev"));
 
-// ✅ Root Router
-const rootRouter = express.Router();
-
-rootRouter.use("/auth", authRoutes);
-rootRouter.use("/fitness", fitnessRoutes);
-rootRouter.use("/nutrition", nutritionRoutes);
-rootRouter.use("/mentalhealth", mentalHealthRoutes);
-rootRouter.use("/goal-tracking", goalRoutes);
-rootRouter.use("/profile", profileRoutes);
-rootRouter.use("/dashboard", dashboardRoutes);
-
+// ✅ Use Root Router
 app.use("/api", rootRouter);  
 
 // ✅ Handle undefined routes (404)
@@ -49,8 +34,8 @@ const PORT = process.env.PORT || 5000;
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
-    console.log("✅ Connected to MongoDB");
-    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+    console.log(`✅ Connected to MongoDB`);
+    app.listen(PORT, "0.0.0.0", () => console.log(`🚀 Server running on port ${PORT}`));
   })
   .catch((error) => {
     console.error("❌ MongoDB connection error:", error);
