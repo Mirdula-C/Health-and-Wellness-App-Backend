@@ -1,7 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-// Import individual route modules
+// ✅ Default API message for base route
+router.get("/", (_req, res) => {
+  res.json({ message: "Health & Wellness API is working!" });
+});
+
+// ✅ Import individual route modules
 const authRoutes = require("./auth");
 const fitnessRoutes = require("./fitnessRoutes");
 const nutritionRoutes = require("./nutritionRoutes");
@@ -11,12 +16,12 @@ const profileRoutes = require("./profileRoutes");
 const dashboardRoutes = require("./dashboardRoutes");
 
 // ✅ Use individual routes with specific prefixes
-router.use("/auth", authRoutes); // /api/auth
-router.use("/fitness", fitnessRoutes); // /api/fitness
-router.use("/nutrition", nutritionRoutes); // /api/nutrition
-router.use("/mentalhealth", mentalHealthRoutes); // /api/mentalhealth
-router.use("/goal-tracking", goalRoutes); // /api/goal-tracking
-router.use("/profile", profileRoutes); // /api/profile
-router.use("/dashboard", dashboardRoutes); // /api/dashboard
+router.use("/auth", authRoutes);
+router.use("/fitness", fitnessRoutes);
+router.use("/nutrition", nutritionRoutes);
+router.use("/mentalhealth", mentalHealthRoutes);
+router.use("/goal-tracking", goalRoutes);
+router.use("/profile", profileRoutes);
+router.use("/dashboard", dashboardRoutes);
 
 module.exports = router;
