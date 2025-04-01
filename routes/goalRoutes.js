@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 router.get("/", (_req, res) => {
-    res.json({ message: "Nutrition API is working!" });
+    res.json({ message: "goal API is working!" });
   });
   
 

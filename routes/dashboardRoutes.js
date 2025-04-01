@@ -7,7 +7,7 @@ const MentalHealth = require("../models/MentalHealth");
 const moment = require("moment");
 
 router.get("/", (_req, res) => {
-  res.json({ message: "Nutrition API is working!" });
+  res.json({ message: "Dashboard API is working!" });
 });
 
 

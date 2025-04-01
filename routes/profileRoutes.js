@@ -4,7 +4,7 @@ const authenticate = require("../middleware/auth");
 
 const router = express.Router();
 router.get("/", (_req, res) => {
-    res.json({ message: "Nutrition API is working!" });
+    res.json({ message: "Profile API is working!" });
   });
   
 
