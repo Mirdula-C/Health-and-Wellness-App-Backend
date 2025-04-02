@@ -8,6 +8,14 @@ exports.logMentalHealth = async (req, res) => {
   if (!userId) {
     return res.status(401).json({ message: "Unauthorized. User ID is missing." });
   }
+  
+  if (mood < 0 || mood > 5 || !Number.isInteger(mood)) {
+    return res.status(400).json({ message: "Invalid mood value." });
+  }
+  if (!journalEntry?.trim()) {
+    return res.status(400).json({ message: "Journal entry cannot be empty." });
+  }
+
 
   try {
     const entry = new MentalHealth({
