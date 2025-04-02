@@ -12,8 +12,13 @@ const app = express();
 
 // ✅ Middleware
 app.use(express.json()); // Parse JSON requests
-app.use(cors({ origin: "https://monumental-macaron-19f0a2.netlify.app/", credentials: true }));
-app.use(morgan("dev")); // Log requests for easier debugging
+app.use(cors({
+  origin: ["https://monumental-macaron-19f0a2.netlify.app"],
+  credentials: true,
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization",
+}));
+app.use(morgan("dev")); 
 
 // ✅ Default Route (Root API Endpoint)
 app.get("/", (req, res) => {
@@ -21,7 +26,7 @@ app.get("/", (req, res) => {
 });
 
 // ✅ Use Root Router
-app.use("/api", rootRouter);  // All routes are prefixed with /api
+app.use("/api", rootRouter);  
 
 // ✅ Handle undefined routes (404)
 app.use((_req, res, _next) => {
