@@ -1,28 +1,38 @@
 const MentalHealth = require("../models/MentalHealth");
 
-// ✅ Log a mental health entry
+// ✅ Log a mental health entry (Prevents duplicate entries for the same day)
 exports.logMentalHealth = async (req, res) => {
-  const { mood, date, journalEntry } = req.body;  
+  const { mood, date, journalEntry } = req.body;
   const userId = req.user?.id;
 
   if (!userId) {
     return res.status(401).json({ message: "Unauthorized. User ID is missing." });
   }
-  
-  if (mood < 0 || mood > 5 || !Number.isInteger(mood)) {
+
+  if (mood === undefined || mood < 0 || mood > 5 || !Number.isInteger(mood)) {
     return res.status(400).json({ message: "Invalid mood value." });
   }
+
   if (!journalEntry?.trim()) {
     return res.status(400).json({ message: "Journal entry cannot be empty." });
   }
 
-
   try {
-    const entry = new MentalHealth({
+    const entryDate = new Date(date || Date.now()).toISOString().split('T')[0]; // Ensure date consistency
+    let entry = await MentalHealth.findOne({ userId, date: entryDate });
+
+    if (entry) {
+      entry.mood = mood;
+      entry.journalEntry = journalEntry;
+      await entry.save();
+      return res.status(200).json({ message: "Entry updated successfully", entry });
+    }
+
+    entry = new MentalHealth({
       userId,
       mood,
-      journalEntry,               
-      date: date ? new Date(date) : new Date(),
+      journalEntry,
+      date: entryDate,
     });
 
     await entry.save();
@@ -44,6 +54,11 @@ exports.getMentalHealthEntries = async (req, res) => {
 
   try {
     const entries = await MentalHealth.find({ userId }).sort({ date: -1 });
+
+    if (!entries.length) {
+      return res.status(200).json({ message: "No mental health entries found.", entries: [] });
+    }
+
     res.status(200).json(entries);
 
   } catch (error) {
@@ -86,13 +101,13 @@ exports.getMentalHealthProgress = async (req, res) => {
 
   try {
     const today = new Date();
-    const dayOfWeek = today.getDay();  
+    const dayOfWeek = today.getDay();
     const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));  
+    startOfWeek.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
     startOfWeek.setHours(0, 0, 0, 0);
 
     const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);  
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
     endOfWeek.setHours(23, 59, 59, 999);
 
     const entries = await MentalHealth.find({
@@ -107,7 +122,7 @@ exports.getMentalHealthProgress = async (req, res) => {
 
     entries.forEach((entry) => {
       const dayIndex = new Date(entry.date).getDay();
-      chartData.data[dayIndex === 0 ? 6 : dayIndex - 1] = entry.mood;  
+      chartData.data[dayIndex === 0 ? 6 : dayIndex - 1] = entry.mood;
     });
 
     res.status(200).json(chartData);
