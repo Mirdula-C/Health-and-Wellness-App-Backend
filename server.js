@@ -12,7 +12,7 @@ const app = express();
 
 // ✅ Middleware
 app.use(express.json()); // Parse JSON requests
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "https://monumental-macaron-19f0a2.netlify.app/", credentials: true }));
 app.use(morgan("dev")); // Log requests for easier debugging
 
 // ✅ Default Route (Root API Endpoint)
